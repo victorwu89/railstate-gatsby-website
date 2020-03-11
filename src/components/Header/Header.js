@@ -1,44 +1,63 @@
 import { Link } from "gatsby";
 import PropTypes from "prop-types";
 import React from "react";
+import Logo from "../../images/RailState-Logo-157px60px.png";
 import VisibilitySensor from "react-visibility-sensor";
 
 import { ScreenWidthContext, FontLoadedContext } from "../../layouts";
 import config from "../../../content/meta/config";
 import Menu from "../Menu";
 
-import avatar from "../../images/jpg/avatar.jpg";
-
 class Header extends React.Component {
   state = {
     fixed: false
   };
 
+  //TODO remove fixed className on scroll
   visibilitySensorChange = val => {
-    if (val) {
+    if (val && window.innerWidth > 1023) {
       this.setState({ fixed: false });
     } else {
       this.setState({ fixed: true });
     }
   };
 
+  handleResize = () => {
+    if (window.innerWidth <= 1028) {
+      this.setState({ fixed: true });
+    } else {
+      this.setState({ fixed: false });
+    }
+  };
+
+  componentDidMount() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+  }
+
+  componentWillUnmount() {
+    this.setState({ fixed: false });
+  }
+
   getHeaderSize = () => {
     const fixed = this.state.fixed ? "fixed" : "";
-    const homepage = this.props.path === "/" ? "homepage" : "";
+    const page =
+      this.props.path === "/"
+        ? "homepage"
+        : this.props.path.slice(this.props.path.indexOf("/") + 1, this.props.path.indexOf("/", 1));
 
-    return `${fixed} ${homepage}`;
+    return `${fixed} ${page}`;
   };
 
   render() {
     const { pages, path, theme } = this.props;
     const { fixed } = this.state;
-
     return (
       <React.Fragment>
         <header className={`header ${this.getHeaderSize()}`}>
           <Link to="/" className="logoType">
             <div className="logo">
-              <img src={config.gravatarImgMd5=="" ? avatar : config.gravatarImgMd5 } alt={config.siteTitle} />
+              <img src={Logo} alt={config.siteTitle} />
             </div>
             <div className="type">
               <h1>{config.headerTitle}</h1>
@@ -62,7 +81,7 @@ class Header extends React.Component {
             )}
           </FontLoadedContext.Consumer>
         </header>
-        <VisibilitySensor onChange={this.visibilitySensorChange}>
+        <VisibilitySensor resizeCheck={true} onChange={this.visibilitySensorChange}>
           <div className="sensor" />
         </VisibilitySensor>
 
@@ -71,7 +90,6 @@ class Header extends React.Component {
           .header {
             align-items: center;
             justify-content: center;
-            background-color: ${theme.color.neutral.white};
             display: flex;
             height: ${theme.header.height.default};
             position: relative;
@@ -90,15 +108,21 @@ class Header extends React.Component {
               }
             }
 
-            &.homepage {
+            &.homepage,
+            &.hiring,
+            &.contact {
               position: absolute;
-              background-color: transparent;
               height: ${theme.header.height.homepage};
+            }
+
+            h1 {
+              font-weight: bold;
             }
           }
 
           h1 {
-            font-size: ${theme.font.size.m};
+            color: ${theme.color.brand.dark};
+            font-size: ${theme.font.size.xl};
             font-weight: ${theme.font.weight.standard};
             margin: ${theme.space.stack.xs};
           }
@@ -115,14 +139,16 @@ class Header extends React.Component {
             border: 1px solid #eee;
             display: inline-block;
             height: 44px;
-            margin: ${theme.space.inline.default};
+            margin: 0;
             overflow: hidden;
-            width: 44px;
+            width: 127px;
             transition: all 0.5s;
 
-            .homepage & {
+            .homepage &,
+            .contact &,
+            .hiring & {
               height: 60px;
-              width: 60px;
+              width: 127px;
             }
 
             img {
@@ -152,25 +178,28 @@ class Header extends React.Component {
           }
 
           @below desktop {
-            .header.homepage {
+            .header.homepage,
+            .header.hiring,
+            .header.contact {
               .logo {
                 border: none;
               }
 
               :global(a.logoType),
               h1 {
-                color: ${theme.color.neutral.white};
+                color: ${theme.color.neutral.darkGray};
               }
               h2 {
-                color: ${theme.color.neutral.gray.d};
+                color: ${theme.color.neutral.gray.dark};
               }
             }
           }
 
           @from-width desktop {
             .header {
+              background-color: ${theme.color.brand.primary.white};
+              box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
               align-items: center;
-              background-color: ${theme.color.neutral.white};
               display: flex;
               position: absolute;
               top: 0;
@@ -179,8 +208,9 @@ class Header extends React.Component {
               transition: padding 0.5s;
 
               &.fixed {
+                background-color: ${theme.color.brand.primary.white};
+                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
                 height: ${theme.header.height.fixed};
-                background-color: ${theme.color.neutral.white};
                 left: 0;
                 padding: 0 ${theme.space.m};
                 position: fixed;
@@ -197,13 +227,13 @@ class Header extends React.Component {
                 }
               }
 
-              &.homepage:not(.fixed) {
+              &.homepage:not(.fixed),
+              &.hiring:not(.fixed),
+              &.contact:not(.fixed) {
                 :global(a.logoType),
-                h1 {
-                  color: ${theme.color.neutral.white};
-                }
+                h1,
                 h2 {
-                  color: ${theme.color.neutral.gray.d};
+                  color: ${theme.color.brand.dark};
                 }
               }
             }
@@ -216,14 +246,16 @@ class Header extends React.Component {
             }
 
             .logo {
-              margin: ${theme.space.inline.default};
-
               .fixed & {
-                height: 36px;
-                width: 36px;
+                border: 0;
+                width: 127px;
+                margin-top: 20px;
+                height: 75px;
               }
 
-              .header.homepage:not(.fixed) & {
+              .header.homepage:not(.fixed) &,
+              .header.hiring:not(.fixed) &,
+              .header.contact:not(.fixed) & {
                 border: none;
               }
             }

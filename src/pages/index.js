@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import { graphql } from "gatsby";
 import { ThemeContext } from "../layouts";
-import Blog from "../components/Blog";
 import Hero from "../components/Hero";
 import Seo from "../components/Seo";
 
@@ -16,7 +15,8 @@ class IndexPage extends React.Component {
   render() {
     const {
       data: {
-        posts: { edges: posts = [] },
+        //not using atm, no need for blog posts
+        //posts: { edges: posts = [] },
         bgDesktop: {
           resize: { src: desktop }
         },
@@ -48,9 +48,14 @@ class IndexPage extends React.Component {
 
         <hr ref={this.separator} />
 
-        <ThemeContext.Consumer>
-          {theme => <Blog posts={posts} theme={theme} />}
-        </ThemeContext.Consumer>
+        <div>
+          {
+            //let's hide the Blog posts on the homepage
+            // <ThemeContext.Consumer>
+            //{theme => <Blog posts={posts} theme={theme} />}
+            //</ThemeContext.Consumer> }
+          }
+        </div>
 
         <Seo facebook={facebook} />
 
@@ -109,22 +114,26 @@ export const query = graphql`
         }
       }
     }
-    bgDesktop: imageSharp(fluid: { originalName: { regex: "/hero-background/" } }) {
+    bgDesktop: imageSharp(
+      fluid: { originalName: { regex: "/WebsiteAnimation-StaticPlaceholder/" } }
+    ) {
       resize(width: 1200, quality: 90, cropFocus: CENTER) {
         src
       }
     }
-    bgTablet: imageSharp(fluid: { originalName: { regex: "/hero-background/" } }) {
+    bgTablet: imageSharp(
+      fluid: { originalName: { regex: "/WebsiteAnimation-StaticPlaceholder/" } }
+    ) {
       resize(width: 800, height: 1100, quality: 90, cropFocus: CENTER) {
         src
       }
     }
-    bgMobile: imageSharp(fluid: { originalName: { regex: "/hero-background/" } }) {
-      resize(width: 450, height: 850, quality: 90, cropFocus: CENTER) {
+    bgMobile: imageSharp(
+      fluid: { originalName: { regex: "/WebsiteAnimation-StaticPlaceholder/" } }
+    ) {
+      resize(width: 600, height: 850, quality: 90, cropFocus: ENTROPY) {
         src
       }
     }
   }
 `;
-
-//hero-background

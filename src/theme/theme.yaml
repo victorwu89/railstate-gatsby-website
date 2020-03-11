@@ -7,17 +7,19 @@ space :
   xxs: 2px
   xs: 5px
   s: 10px
+  sm: 25px;
   m: 20px
+  ml: 30px
   l: 40px
   xl: 80px
   inset:
-    default : 20px
+    default : 40px
     xs: 5px
     s: 10px
     m: 20px
     l: 40px
   stack:
-    default : 0 0 20px 0
+    default : 40px
     xxs: 0 0 2px 0
     xs: 0 0 5px 0
     s: 0 0 10px 0
@@ -30,6 +32,8 @@ space :
     s: 0 10px 0 0
     m: 0 20px 0 0
     l: 0 40px 0 0
+  top:
+    m: 140px 40px 40px
 # SIZE
 size:
   radius:
@@ -40,7 +44,12 @@ color:
   # color options
   neutral:
     white: &color-white '#ffffff'
+    blue:
+      light: 'lightBlue'
+      normal: 'blue'
     gray:
+      light: 'lightGray'
+      dark: '#6a6a6a'
       a: &color-gray-1 '#fafaf9'
       b: &color-gray-2 '#f3f2f2'
       c: &color-gray-3 '#ecebea'
@@ -52,29 +61,38 @@ color:
       i: '#514f4d'
       j: &color-gray-10 '#3e3e3c'
       k: '#2b2826'
-    black: '#000000'
+    black: &color-black '#000000'
   brand:
-    primary: &color-brand-primary '#709425'
+    primary:
+      white: &color-brand-white '#fff'
+      light: &color-brand-light '#f5f7fc'
+      dark: &color-brand-dark '#002A5E'
+      medium: &color-brand-medium '#33557E'
     primaryActive: '#709425'
-    light: '#709425'
+    orange: '#e76d51'
+    lightState: '#EAF3FF'
+    sunState: '#EA401E'
+    seaState: '#6DE09F'
     lightActive: '#709425'
-    dark: '#709425'
-    darkActive: '#709425'
+    dark: '#191919'
+    darkActive: '#191919'
   special:
-    attention: &color-special-attention orange
+    attention: &color-special-attention black
 # FONT
 font:
   # font options
   family:
-    initial: 'Arial, sans-serif'
-    target: &font-family-target 'Open Sans'
+    initial: 'Montserrat, verdana, sans-serif'
+    target: &font-family-target 'Montserrat, verdana'
   weight:
     standard: 400
     bold: 600
   size:
     xxs: &font-size-xs .8em
     xs: &font-size-xs .95em
+    ss: &font-size-s 1em
     s: &font-size-s 1.1em
+    sm: &font-size-s 1.15em
     m: &font-size-m 1.35em
     l: &font-size-l 1.7em
     xl: &font-size-xl 2em
@@ -100,19 +118,19 @@ background:
   color:
     primary: *color-white
     alt: *color-gray-1
-    brand: *color-brand-primary
+    brand: *color-brand-dark
 text:
   family: *font-family-target
   color:
     primary: *color-gray-10
     primaryInverse: *color-white
-    brand: *color-brand-primary
+    brand: *color-brand-dark
     attention: *color-special-attention
   lineHeight:
     default: *font-line-height-l
   maxWidth:
     tablet: 650px
-    desktop: 700px
+    desktop: 1200px
 heading:
   family: *font-family-target
   size:
@@ -120,31 +138,39 @@ heading:
     h2: *font-size-l
     h3: *font-size-m
   lineHeight:
-    h1: *font-line-height-xs
+    h1: *font-line-height-m
     h2: *font-line-height-xs
     h3: *font-line-height-xs
   weight: 600
+link:
+  color:
+    dark: '#191919'
+    white: white
+    orange: '#e76d51'
+linkhover:
+  color:
+    gray: gray
+    dark: '#191919'
 line:
   color: *color-gray-3
 icon:
-  color: *color-brand-primary
+  color: *color-brand-dark
 
 
 # COMPONENT TOKENS
 hero:
   h1:
-    size: *font-size-xxl
-    color: *color-white
+    size: *font-size-m
+    color: 'black'
     lineHeight: *font-line-height-xs
   background: 'linear-gradient(0deg, #E0306E, #6438B5)'
 blog:
   h1:
     size: *font-size-l
     lineHeight: *font-line-height-xs
-    hoverColor: *color-brand-primary
+    hoverColor: *color-brand-dark
 header:
   height:
     default: 80px
-    fixed: 50px;
+    fixed: 127px;
     homepage: 100px;
-

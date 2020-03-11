@@ -2,12 +2,13 @@ module.exports = ctx => ({
   plugins: {
     "postcss-easy-media-query": {
       breakpoints: {
+        mobile: 500,
         tablet: 600,
         desktop: 1024
       }
     },
     "postcss-text-remove-gap": {
-      defaultFontFamily: "Open Sans",
+      defaultFontFamily: "Montserrat",
       defaultLineHeight: "0"
     },
     "postcss-nested": {},

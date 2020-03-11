@@ -1,4 +1,4 @@
-import { FaAngleDown } from "react-icons/fa/";
+import { GoThreeBars } from "react-icons/go";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -8,29 +8,37 @@ const Expand = props => {
   return (
     <React.Fragment>
       <button className="more" to="#" onClick={onClick} aria-label="expand">
-        <FaAngleDown size={30} />
+        <GoThreeBars size={30} />
       </button>
 
       {/* --- STYLES --- */}
       <style jsx>{`
         .more {
+          right: 0px;
           cursor: pointer;
+          & svg {
+            fill: black;
+          }
         }
 
         @below desktop {
           .more {
-            background: ${theme.color.neutral.white};
-            border: 1px solid ${theme.color.brand.primary};
+            background: transparent;
+            border: none;
             border-radius: ${theme.size.radius.small} ${theme.size.radius.small} 0 0;
             border-bottom: none;
             position: absolute;
-            left: 50%;
-            top: -35px;
+            left: 92%;
+            top: -20px;
             width: 60px;
             height: 36px;
             overflow: hidden;
             z-index: 1;
             transform: translateX(-50%);
+
+            &:after {
+              border: none;
+            }
 
             &:focus {
               outline: none;

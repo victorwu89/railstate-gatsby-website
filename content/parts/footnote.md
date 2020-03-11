@@ -2,9 +2,5 @@
 title: footnote
 ---
 
-* it's a demo site of the [gatsby-starter-hero-blog](https://github.com/greglobinski/gatsby-starter-hero-blog)
-* built by [greg lobinski](https://www.greglobinski.com)
-* Check [Front-end web development with Greg](https://dev.greglobinski.com)
-* delivered by [Netlify](https://www.netlify.com/)
-* photos by [unsplash.com](https://unsplash.com)
-* graphic by [pixabay.com](https://pixabay.com)
+<p style="text-align:center;">The go-to source for unbiased, third-party data and insight on freight railway network condition, performance and volume.</p>
+<p style="text-align:center;">10 Tyler St, Somerville, MA 02143  |  © Railstate 2020</p>

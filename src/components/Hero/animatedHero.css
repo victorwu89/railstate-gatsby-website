@@ -1,0 +1,13 @@
+@keyframes animatedBackground {
+  from {
+    background-position: 100% 15%;
+  }
+  to {
+    background-position: 100% 18%;
+  }
+}
+
+section.hero{
+  -webkit-animation: animatedBackground 1.5s linear infinite alternate;
+  animation: animatedBackground 1.5s linear infinite alternate;
+}

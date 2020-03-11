@@ -2,13 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 require("core-js/fn/array/from");
 
-import { FaHome } from "react-icons/fa/";
-import { FaSearch } from "react-icons/fa/";
-import { FaEnvelope } from "react-icons/fa/";
-import { FaTag } from "react-icons/fa/";
+import { MdClose } from "react-icons/md";
 
+import ItemMobile from "./ItemMobile";
 import Item from "./Item";
 import Expand from "./Expand";
+import "./menu-animation.css";
 
 class Menu extends React.Component {
   constructor(props) {
@@ -22,21 +21,47 @@ class Menu extends React.Component {
         : page.node.frontmatter.title
     }));
 
+    this.itemsForLater = [
+      {
+        to: "/login/",
+        label: "Login",
+        children: false
+      },
+      {
+        to: "/product/",
+        label: "Product"
+      },
+      {
+        to: "/solutions/",
+        label: "Solutions"
+      },
+      {
+        to: "/resources/",
+        label: "Resources"
+      }
+    ];
+
     this.items = [
-      { to: "/", label: "Home", icon: FaHome },
-      { to: "/category/", label: "Categories", icon: FaTag },
-      { to: "/search/", label: "Search", icon: FaSearch },
-      ...pages,
-      { to: "/contact/", label: "Contact", icon: FaEnvelope }
+      {
+        to: "/hiring/",
+        label: "Hiring",
+        children: false
+      },
+      {
+        to: "/contact/",
+        label: "Contact",
+        children: false
+      }
     ];
 
     this.renderedItems = []; // will contain references to rendered DOM elements of menu
-  }
 
-  state = {
-    open: false,
-    hiddenItems: []
-  };
+    this.state = {
+      open: false,
+      hiddenItems: [],
+      hamburger: false
+    };
+  }
 
   static propTypes = {
     path: PropTypes.string.isRequired,
@@ -61,7 +86,7 @@ class Menu extends React.Component {
       if (this.props.path !== prevProps.path) {
         this.closeMenu();
       }
-      this.hideOverflowedMenuItems();
+      //this.hideOverflowedMenuItems();
     }
   }
 
@@ -106,59 +131,37 @@ class Menu extends React.Component {
 
   toggleMenu = e => {
     e.preventDefault();
-
-    if (this.props.screenWidth < 1024) {
-      this.renderedItems.map(item => {
-        const oldClass = this.state.open ? "showItem" : "hideItem";
-        const newClass = this.state.open ? "hideItem" : "showItem";
-
-        if (item.classList.contains(oldClass)) {
-          item.classList.add(newClass);
-          item.classList.remove(oldClass);
-        }
-      });
-    }
-
-    this.setState(prevState => ({ open: !prevState.open }));
+    this.setState({ hamburger: true });
   };
 
   closeMenu = e => {
-    //e.preventDefault();
-
-    if (this.state.open) {
-      this.setState({ open: false });
-      if (this.props.screenWidth < 1024) {
-        this.renderedItems.map(item => {
-          if (item.classList.contains("showItem")) {
-            item.classList.add("hideItem");
-            item.classList.remove("item");
-          }
-        });
-      }
-    }
+    this.setState({ hamburger: false });
   };
 
   render() {
     const { screenWidth, theme } = this.props;
     const { open } = this.state;
-
     return (
       <React.Fragment>
         <nav className={`menu ${open ? "open" : ""}`} rel="js-menu">
-          <ul className="itemList" ref={this.itemList}>
-            {this.items.map(item => (
-              <Item item={item} key={item.label} icon={item.icon} theme={theme} />
-            ))}
+          <ul
+            className={`itemList ${this.state.hamburger ? "hamburger" : ""} `}
+            ref={this.itemList}
+          >
+            <span onClick={this.closeMenu}>
+              <MdClose size={26} />
+            </span>
+            {screenWidth >= 1022 &&
+              this.items.map(function(item) {
+                return <Item item={item} key={item.label} icon={item.icon} theme={theme} />;
+              })}
+            {screenWidth <= 1022 &&
+              this.items.map(function(item) {
+                return <ItemMobile item={item} key={item.label} icon={item.icon} theme={theme} />;
+              })}
           </ul>
-          {this.state.hiddenItems.length > 0 && <Expand onClick={this.toggleMenu} theme={theme} />}
-          {open &&
-            screenWidth >= 1024 && (
-              <ul className="hiddenItemList">
-                {this.state.hiddenItems.map(item => (
-                  <Item item={item} key={item.label} hiddenItem theme={theme} />
-                ))}
-              </ul>
-            )}
+          {//insert code to update expand button. instead of length screen size
+          screenWidth <= 1021 && <Expand onClick={this.toggleMenu} theme={theme} />}
         </nav>
 
         {/* --- STYLES --- */}
@@ -166,11 +169,10 @@ class Menu extends React.Component {
           .menu {
             align-items: center;
             background: ${theme.color.neutral.white};
-            bottom: 0;
             display: flex;
             flex-grow: 1;
             left: 0;
-            max-height: ${open ? "1000px" : "50px"};
+            //max-height: ${open ? "1000px" : "50px"};
             padding: 0 ${theme.space.inset.s};
             position: fixed;
             width: 100%;
@@ -198,7 +200,32 @@ class Menu extends React.Component {
                 right: ${theme.space.m};
                 top: 0;
                 height: 1px;
-                background: ${theme.color.brand.primary};
+                //background: ${theme.color.brand.primary};
+              }
+
+              & ul{
+                display:none;
+                &.hamburger{
+                  display: block !important;
+                  padding: ${theme.space.sm};
+                  position: fixed;
+                  background: white;
+                  left: 0px;
+                  top: 0;
+                  z-index: 2;
+                  width: 101%;
+                  -webkit-animation: slide-down .3s ease-out;
+                  -moz-animation: slide-down .3s ease-out;
+
+                  span{
+                    cursor: pointer;
+                    display: block;
+                    width: 20px;
+                    position: absolute;
+                    right: 15px;
+                    top: 10px;
+                  }
+                }
               }
 
               &.open {
@@ -217,13 +244,16 @@ class Menu extends React.Component {
               background: transparent;
               display: flex;
               position: relative;
-              justify-content: flex-end;
+              justify-content: flex-start;
               padding-left: 50px;
               transition: none;
+              & span{
+                display: none;
+              }
             }
 
             .itemList {
-              justify-content: flex-end;
+              justify-content: flex-start;
               padding: 0;
             }
 

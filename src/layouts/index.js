@@ -27,8 +27,8 @@ class Layout extends React.Component {
     };
 
     if (typeof window !== `undefined`) {
-      this.loadFont("font400", "Open Sans", 400);
-      this.loadFont("font600", "Open Sans", 600);
+      this.loadFont("font400", "Montserrat", 400);
+      this.loadFont("font600", "Montserrat", 600);
     }
   }
 
@@ -127,6 +127,7 @@ class Layout extends React.Component {
                     <style jsx>{`
                       main {
                         min-height: 80vh;
+                        background-color: ${this.state.theme.color.brand.primary.light};
                       }
                     `}</style>
                     <style jsx global>{`
@@ -142,8 +143,8 @@ class Layout extends React.Component {
                       }
                       body {
                         font-family: ${this.state.font400loaded
-                          ? "'Open Sans', sans-serif;"
-                          : "Arial, sans-serif;"};
+                          ? "'Montserrat', sans-serif;"
+                          : "Verdana, sans-serif;"};
                       }
                       h1,
                       h2,
@@ -155,20 +156,114 @@ class Layout extends React.Component {
                       }
                       h1 {
                         letter-spacing: -0.04em;
+                        &.headline {
+                          font-size: 45px;
+                        }
+                      }
+                      main {
+                        a {
+                          font-size: larger;
+
+                          &:hover {
+                            color: ${this.state.theme.color.brand.primary.medium};
+                          }
+                        }
                       }
                       p {
-                        margin: 0;
+                        margin: ${this.state.theme.space.s};
+                        font-family: ${this.state.theme.font.family.initial};
+                        font-size: ${this.state.theme.font.size.sm};
                       }
                       strong {
                         font-weight: ${this.state.font600loaded ? 600 : 400};
                       }
                       a {
-                        text-decoration: none;
-                        color: #666;
+                        text-decoration: none !important;
+                        color: ${this.state.theme.link.color.dark};
                       }
+                      //mobile display
+                      a.showChildren {
+                        & + ul {
+                          display: block !important;
+                        }
+                      }
+                      img {
+                        max-width: 100%;
+                      }
+
                       main {
                         width: auto;
                         display: block;
+                      }
+
+                      .btn{
+                        background-color: ${this.state.theme.link.color.orange};
+                        color: white;
+                        display: inline-block;
+                        font-weight: 400;
+                        font-size: ${this.state.theme.font.size.ss};
+                        text-align: center;
+                        white-space: nowrap;
+                        vertical-align: middle;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        border: 1px solid transparent;
+                        padding: .375rem .75rem;
+                        line-height: 1.5;
+                        border-radius: .25rem;
+                        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+                          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+                        &:hover {
+                          background-color: ${this.state.theme.linkhover.color.dark};
+                        }
+                      }
+
+                      .grecaptcha-badge {
+                        visibility: hidden;
+                      }
+
+                      .wrapper {
+                        padding: ${this.state.theme.space.ml};
+                        margin: 5vw auto;
+                      }
+
+                      @below tablet {
+                        h1 {
+                          font-size: 25px !important;
+                        }
+
+                        h2 {
+                          font-size: 20px !important;
+                        }
+
+                        h1 {
+                          &.tag-line {
+                            font-size: smaller !important;
+                          }
+                        }
+                        /* contact form*/
+                        .form {
+                          max-width: 100%;
+                          width: 100%;
+                          padding-bottom: 25px;
+                        }
+                        #contact-right {
+                          padding-top: 25px !important;
+                        }
+                      }
+
+                      @below desktop {
+                        header {
+                          &.hiring,
+                          &.contact {
+                            & ~ main {
+                              padding-top: 75px;
+                            }
+                          }
+                        }
                       }
                     `}</style>
                   </React.Fragment>

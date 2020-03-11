@@ -6,6 +6,7 @@ import config from "../../../content/meta/config";
 const Seo = props => {
   const { data, facebook } = props;
   const postTitle = ((data || {}).frontmatter || {}).title;
+  //const postDescription = ((data || {}).frontmatter || {}).description;
   const postDescription = ((data || {}).frontmatter || {}).description;
   const postCover = ((data || {}).frontmatter || {}).cover;
   const postSlug = ((data || {}).fields || {}).slug;
@@ -13,7 +14,7 @@ const Seo = props => {
   const title = postTitle ? `${postTitle} - ${config.shortSiteTitle}` : config.siteTitle;
   const description = postDescription ? postDescription : config.siteDescription;
   const image = postCover ? postCover : config.siteImage;
-  const url = config.siteUrl + config.pathPrefix + postSlug;
+  const url = data;
 
   return (
     <Helmet
@@ -24,6 +25,7 @@ const Seo = props => {
     >
       {/* General tags */}
       <title>{title}</title>
+      //<script type="text/javascript">{console.log("test")}</script>
       <meta name="description" content={description} />
       {/* OpenGraph tags */}
       <meta property="og:url" content={url} />
@@ -34,10 +36,6 @@ const Seo = props => {
       <meta property="fb:app_id" content={facebook.appId} />
       {/* Twitter Card tags */}
       <meta name="twitter:card" content="summary" />
-      <meta
-        name="twitter:creator"
-        content={config.authorTwitterAccount ? config.authorTwitterAccount : ""}
-      />
     </Helmet>
   );
 };
